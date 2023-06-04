@@ -1,0 +1,105 @@
+- type: conditional
+        conditions:
+          - entity: switch.208907211429560_start
+            state: 'on'
+        card:
+          type: vertical-stack
+          cards:
+            - type: horizontal-stack
+              cards:
+                - type: tile
+                  entity: sensor.208907211429560_progress
+                  tap_action:
+                    action: none
+                  icon_tap_action:
+                    action: none
+                - type: tile
+                  entity: sensor.208907211429560_time_remaining
+                  tap_action:
+                    action: none
+                  icon_tap_action:
+                    action: none
+            - show_name: true
+              show_icon: true
+              show_state: true
+              type: glance
+              entities:
+                - entity: sensor.208907211429560_washing_time
+                - entity: sensor.208907211429560_temperature
+                - entity: sensor.208907211429560_rinsing
+                - entity: sensor.208907211429560_speed
+                - entity: sensor.208907211429560_speed
+                - entity: binary_sensor.208907211429560_nanobubbles
+                - entity: binary_sensor.208907211429560_uv
+              columns: 4
+      - type: vertical-stack
+        cards:
+          - type: tile
+            entity: switch.208907211429560_power
+            name: 洗衣机电源
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: toggle
+          - type: conditional
+            conditions:
+              - entity: switch.208907211429560_power
+                state: 'on'
+              - entity: switch.208907211429560_start
+                state: 'off'
+            card:
+              type: entity
+              entity: select.208907211429560_preset_mode
+              name: 预设
+          - type: conditional
+            conditions:
+              - entity: switch.208907211429560_power
+                state: 'on'
+            card:
+              type: vertical-stack
+              cards:
+                - type: tile
+                  entity: switch.208907211429560_start
+                  name: 工作状态
+                  icon: mdi:briefcase
+                  tap_action:
+                    action: toggle
+                  icon_tap_action:
+                    action: toggle
+                - type: horizontal-stack
+                  cards:
+                    - type: tile
+                      entity: sensor.208907211429560_mode
+                      name: 洗涤模式
+                      tap_action:
+                        action: none
+                      icon_tap_action:
+                        action: none
+                    - type: tile
+                      entity: sensor.208907211429560_progress
+                      tap_action:
+                        action: none
+                      icon_tap_action:
+                        action: none
+                      name: 当前步骤
+                    - type: tile
+                      entity: sensor.208907211429560_time_remaining
+                      tap_action:
+                        action: none
+                      icon_tap_action:
+                        action: none
+                      name: 剩余时间
+                - show_name: true
+                  show_icon: true
+                  show_state: true
+                  type: glance
+                  entities:
+                    - entity: sensor.208907211429560_water_level
+                    - entity: sensor.208907211429560_temperature
+                    - entity: sensor.208907211429560_washing_time
+                    - entity: sensor.208907211429560_rinsing
+                    - entity: sensor.208907211429560_speed
+                    - entity: sensor.208907211429560_dehydration_time
+                    - entity: binary_sensor.208907211429560_nanobubbles
+                    - entity: binary_sensor.208907211429560_uv
+                  columns: 4
