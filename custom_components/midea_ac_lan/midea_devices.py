@@ -2,7 +2,6 @@ from homeassistant.const import (
     TIME_DAYS,
     TIME_HOURS,
     TIME_MINUTES,
-    TIME_SECONDS,
     TEMP_CELSIUS,
     POWER_WATT,
     PERCENTAGE,
@@ -16,8 +15,6 @@ from homeassistant.components.binary_sensor import BinarySensorDeviceClass
 from homeassistant.components.sensor import SensorStateClass, SensorDeviceClass
 from .midea.devices.a1.device import DeviceAttributes as A1Attributes
 from .midea.devices.ac.device import DeviceAttributes as ACAttributes
-from .midea.devices.b0.device import DeviceAttributes as B0Attributes
-from .midea.devices.b1.device import DeviceAttributes as B1Attributes
 from .midea.devices.b6.device import DeviceAttributes as B6Attributes
 from .midea.devices.c3.device import DeviceAttributes as C3Attributes
 from .midea.devices.ca.device import DeviceAttributes as CAAttributes
@@ -227,102 +224,6 @@ MIDEA_DEVICES = {
                 "name": "Realtime Power",
                 "device_class": SensorDeviceClass.POWER,
                 "unit": POWER_WATT,
-                "state_class": SensorStateClass.MEASUREMENT
-            }
-        }
-    },
-    0xB0: {
-        "name": "Microwave Oven",
-        "entities": {
-            B0Attributes.door: {
-                "type": "binary_sensor",
-                "name": "Door",
-                "icon": "mdi:box-shadow",
-                "device_class": BinarySensorDeviceClass.DOOR
-            },
-            B0Attributes.tank_ejected: {
-                "type": "binary_sensor",
-                "name": "Tank ejected",
-                "icon": "mdi:cup-water",
-                "device_class": BinarySensorDeviceClass.PROBLEM
-            },
-            B0Attributes.water_change_reminder: {
-                "type": "binary_sensor",
-                "name": "Water Change Reminder",
-                "icon": "mdi:cup-water",
-                "device_class": BinarySensorDeviceClass.PROBLEM
-            },
-            B0Attributes.water_shortage: {
-                "type": "binary_sensor",
-                "name": "Water Shortage",
-                "icon": "mdi:cup-water",
-                "device_class": BinarySensorDeviceClass.PROBLEM
-            },
-            B0Attributes.current_temperature: {
-                "type": "sensor",
-                "name": "Current Temperature",
-                "device_class": SensorDeviceClass.TEMPERATURE,
-                "unit": TEMP_CELSIUS,
-                "state_class": SensorStateClass.MEASUREMENT
-            },
-            B0Attributes.status: {
-                "type": "sensor",
-                "name": "Status",
-                "icon": "mdi:information",
-            },
-            B0Attributes.time_remaining: {
-                "type": "sensor",
-                "name": "Time Remaining",
-                "icon": "mdi:progress-clock",
-                "unit": TIME_SECONDS,
-                "state_class": SensorStateClass.MEASUREMENT
-            }
-        }
-    },
-    0xB1: {
-        "name": "Oven",
-        "entities": {
-            B1Attributes.door: {
-                "type": "binary_sensor",
-                "name": "Door",
-                "icon": "mdi:box-shadow",
-                "device_class": BinarySensorDeviceClass.DOOR
-            },
-            B1Attributes.tank_ejected: {
-                "type": "binary_sensor",
-                "name": "Tank ejected",
-                "icon": "mdi:cup-water",
-                "device_class": BinarySensorDeviceClass.PROBLEM
-            },
-            B1Attributes.water_change_reminder: {
-                "type": "binary_sensor",
-                "name": "Water Change Reminder",
-                "icon": "mdi:cup-water",
-                "device_class": BinarySensorDeviceClass.PROBLEM
-            },
-            B1Attributes.water_shortage: {
-                "type": "binary_sensor",
-                "name": "Water Shortage",
-                "icon": "mdi:cup-water",
-                "device_class": BinarySensorDeviceClass.PROBLEM
-            },
-            B1Attributes.current_temperature: {
-                "type": "sensor",
-                "name": "Current Temperature",
-                "device_class": SensorDeviceClass.TEMPERATURE,
-                "unit": TEMP_CELSIUS,
-                "state_class": SensorStateClass.MEASUREMENT
-            },
-            B1Attributes.status: {
-                "type": "sensor",
-                "name": "Status",
-                "icon": "mdi:information",
-            },
-            B1Attributes.time_remaining: {
-                "type": "sensor",
-                "name": "Time Remaining",
-                "icon": "mdi:progress-clock",
-                "unit": TIME_SECONDS,
                 "state_class": SensorStateClass.MEASUREMENT
             }
         }
@@ -769,24 +670,107 @@ MIDEA_DEVICES = {
         "entities": {
             DBAttributes.time_remaining: {
                 "type": "sensor",
-                "name": "Time Remaining",
-                "icon": "mdi:progress-clock",
+                "name": "剩余时间",
+                "icon": "mdi:timer",
                 "unit": TIME_MINUTES,
                 "state_class": SensorStateClass.MEASUREMENT
             },
             DBAttributes.progress: {
                 "type": "sensor",
-                "name": "Progress",
+                "name": "当前步骤",
                 "icon": "mdi:rotate-360"
             },
             DBAttributes.power: {
                 "type": "switch",
-                "name": "Power",
+                "name": "电源",
                 "icon": "mdi:power"
             },
             DBAttributes.start: {
                 "type": "switch",
-                "name": "Start",
+                "name": "工作状态",
+                "icon": "mdi:motion-play-outline"
+            },
+            DBAttributes.mode: {
+                "type": "sensor",
+                "name": "洗涤模式",
+                "icon": "mdi:auto-mode"
+            },
+            DBAttributes.temperature: {
+                "type": "sensor",
+                "name": "洗涤温度",
+                "icon": "mdi:water-thermometer"
+            },
+            DBAttributes.water_level: {
+                "type": "sensor",
+                "name": "洗涤水量",
+                "icon": "mdi:water-thermometer"
+            },
+#            DBAttributes.water_level: {
+#                "type": "select",
+#                "name": "水量挡位",
+#                "options": "water_level_sets",
+#                "icon": "mdi:water-thermometer"
+#            },
+#            DBAttributes.washing_level: {
+#                "type": "select",
+#                "name": "洗涤挡位",
+#                "options": "washing_level_sets",
+#                "icon": "mdi:water-thermometer"
+#            },
+#            DBAttributes.dehydration_level: {
+#                "type": "select",
+#                "name": "甩干挡位",
+#                "options": "dehydration_level_sets",
+#                "icon": "mdi:water-thermometer"
+#            },
+            DBAttributes.preset_mode: {
+                "type": "select",
+                "name": "预设模式",
+                "options": "preset_mode_sets",
+                "icon": "mdi:water-thermometer"
+            },
+            DBAttributes.washing_time: {
+                "type": "sensor",
+                "name": "洗涤时间",
+                "icon": "mdi:clock-time-eight",
+                "unit": TIME_MINUTES,
+                "state_class": SensorStateClass.MEASUREMENT
+            },
+            DBAttributes.rinsing: {
+                "type": "sensor",
+                "name": "漂洗次数",
+                "icon": "mdi:numeric-2-circle"
+            },
+            DBAttributes.speed: {
+                "type": "sensor",
+                "name": "脱水转速",
+                "icon": "mdi:speedometer"
+            },
+            DBAttributes.dehydration_time: {
+                "type": "sensor",
+                "name": "脱水时间",
+                "icon": "mdi:clock-time-eight",
+                "unit": TIME_MINUTES,
+                "state_class": SensorStateClass.MEASUREMENT
+            },
+            DBAttributes.detergent: {
+                "type": "sensor",
+                "name": "洗涤剂",
+                "icon": "mdi:hand-wash"
+            },
+            DBAttributes.softener: {
+                "type": "sensor",
+                "name": "柔顺剂",
+                "icon": "mdi:motion-play-outline"
+            },
+            DBAttributes.nanobubbles: {
+                "type": "binary_sensor",
+                "name": "超微净泡",
+                "icon": "mdi:chart-bubble"
+            },
+            DBAttributes.uv: {
+                "type": "binary_sensor",
+                "name": "UV杀菌",
                 "icon": "mdi:motion-play-outline"
             },
         }
@@ -911,27 +895,6 @@ MIDEA_DEVICES = {
                 "device_class": SensorDeviceClass.TEMPERATURE,
                 "unit": TEMP_CELSIUS,
                 "state_class": SensorStateClass.MEASUREMENT
-            },
-            E2Attributes.heating_time_remaining: {
-                "type": "sensor",
-                "name": "Heating Time Remaining",
-                "icon": "mdi:progress-clock",
-                "unit": TIME_MINUTES,
-                "state_class": SensorStateClass.MEASUREMENT
-            },
-            E2Attributes.heating_power: {
-                "type": "sensor",
-                "name": "Heating Power",
-                "device_class": SensorDeviceClass.POWER,
-                "unit": POWER_WATT,
-                "state_class": SensorStateClass.MEASUREMENT
-            },
-            E2Attributes.water_consumption:{
-                "type": "sensor",
-                "name": "Water Consumption",
-                "icon": "mdi:water",
-                "unit": VOLUME_LITERS,
-                "state_class": SensorStateClass.TOTAL_INCREASING
             },
             E2Attributes.power: {
                 "type": "switch",
@@ -1283,11 +1246,6 @@ MIDEA_DEVICES = {
                 "type": "switch",
                 "name": "Power",
                 "icon": "mdi:power"
-            },
-            FCAttributes.standby: {
-                "type": "switch",
-                "name": "Standby",
-                "icon": "mdi:smoke-detector-variant"
             },
             FCAttributes.detect_mode: {
                 "type": "select",
